@@ -16,10 +16,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //repositories
 import com.fundaments.springboot.fundaments.repository.*;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootApplication
 public class FundamentsApplication implements CommandLineRunner {
@@ -81,6 +83,20 @@ public class FundamentsApplication implements CommandLineRunner {
 		 */
 
 		saveUsersDB();
+		getInfoJpqlUser();
+	}
+
+	private void getInfoJpqlUser() {
+		LOGGER.info("User with email = " +
+				userRepository.findByEmail("alex@gmail.com")
+						.orElseThrow(() -> new RuntimeException("No se encontro el usuario"))
+		);
+
+		//no es necesario escribir todo el nombre del user
+		userRepository.findAndSort("Al", Sort.by("id").descending())
+				.forEach(LOGGER::info); // por si no se quiere usar stream, se usa el forEach de list
+				//.stream()
+				//.forEach(user -> LOGGER.info("USER SORT BY ID = " + user));
 	}
 
 	//metodo para registrar la informacion en la db
@@ -89,7 +105,7 @@ public class FundamentsApplication implements CommandLineRunner {
 		User user2 = new User("Jess","jess@gmail.com", LocalDate.of(2021, 8, 20));
 		User user3 = new User("Daniela", "daniela@domain.com", LocalDate.of(2021, 9, 8));
 		User user4 = new User("Marisol", "marisol@domain.com", LocalDate.of(2021, 6, 18));
-		User user5 = new User("Karen", "karen@domain.com", LocalDate.of(2021, 1, 1));
+		User user5 = new User("Albaren", "karen@domain.com", LocalDate.of(2021, 1, 1));
 		User user6 = new User("Carlos", "carlos@domain.com", LocalDate.of(2021, 7, 7));
 		User user7 = new User("Enrique", "enrique@domain.com", LocalDate.of(2021, 11, 12));
 		User user8 = new User("Luis", "luis@domain.com", LocalDate.of(2021, 2, 27));
