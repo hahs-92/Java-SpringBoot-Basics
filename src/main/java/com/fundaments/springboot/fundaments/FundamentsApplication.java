@@ -5,6 +5,8 @@ import com.fundaments.springboot.fundaments.bean.MyBeanWithDependecy;
 import com.fundaments.springboot.fundaments.bean.MyBeanWithProperties;
 import com.fundaments.springboot.fundaments.component.ComponentDependency;
 import com.fundaments.springboot.fundaments.pojo.UserPojo;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -23,6 +25,8 @@ public class FundamentsApplication implements CommandLineRunner {
 	//dependency with configuration
 	private MyBeanWithProperties myBeanWithProperties;
 	private UserPojo userPojo;
+
+	private final Log LOGGER = LogFactory.getLog(FundamentsApplication.class);
 
 	//constructor
 	//@Qualifier -> le indicamos la clase que queremos que implement, en caso de que haya mas de una
@@ -52,5 +56,12 @@ public class FundamentsApplication implements CommandLineRunner {
 		myBeanWithDependecy.printWithDependecy();
 		System.out.println("name = " +  myBeanWithProperties.getName());
 		System.out.println("username =" + userPojo.getUsername());
+
+		try {
+			int value = 10/0;
+			LOGGER.debug("my value es: " + value); // no llegara aqui
+		} catch (Exception ex) {
+			LOGGER.error("This is an Error " + ex.getMessage());
+		}
 	}
 }
