@@ -4,6 +4,7 @@ import com.fundaments.springboot.fundaments.bean.MyBean;
 import com.fundaments.springboot.fundaments.bean.MyBeanWithDependecy;
 import com.fundaments.springboot.fundaments.bean.MyBeanWithProperties;
 import com.fundaments.springboot.fundaments.component.ComponentDependency;
+import com.fundaments.springboot.fundaments.pojo.UserPojo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,7 @@ public class FundamentsApplication implements CommandLineRunner {
 	private MyBeanWithDependecy myBeanWithDependecy;
 	//dependency with configuration
 	private MyBeanWithProperties myBeanWithProperties;
+	private UserPojo userPojo;
 
 	//constructor
 	//@Qualifier -> le indicamos la clase que queremos que implement, en caso de que haya mas de una
@@ -29,13 +31,14 @@ public class FundamentsApplication implements CommandLineRunner {
 			@Qualifier("component2Implement") ComponentDependency componentDependency,
 			MyBean myBean,
 			MyBeanWithDependecy myBeanWithDependecy,
-			MyBeanWithProperties myBeanWithProperties
+			MyBeanWithProperties myBeanWithProperties,
+			UserPojo userPojo
 	){
 		this.componentDependency = componentDependency;
 		this.myBean = myBean;
 		this.myBeanWithDependecy = myBeanWithDependecy;
 		this.myBeanWithProperties = myBeanWithProperties;
-
+		this.userPojo = userPojo;
 	}
 
 	public static void main(String[] args) {
@@ -48,5 +51,6 @@ public class FundamentsApplication implements CommandLineRunner {
 		myBean.print();
 		myBeanWithDependecy.printWithDependecy();
 		System.out.println("name = " +  myBeanWithProperties.getName());
+		System.out.println("username =" + userPojo.getUsername());
 	}
 }
