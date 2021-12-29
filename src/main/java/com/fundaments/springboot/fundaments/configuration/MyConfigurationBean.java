@@ -30,14 +30,4 @@ public class MyConfigurationBean {
         return new MyBeanWithDependencyImpl(myOperation);
     }
 
-    //bean h2-databse - spring nos inyectara esta dependecias
-    @Bean
-    public DataSource dataSource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName("org.h2.Driver");
-        dataSourceBuilder.url("jdbc:h2:men:testdb");
-        dataSourceBuilder.username("sa");
-        dataSourceBuilder.password("");
-        return dataSourceBuilder.build();
-    }
 }
