@@ -6,6 +6,7 @@ import com.fundaments.springboot.fundaments.bean.MyBeanWithProperties;
 import com.fundaments.springboot.fundaments.component.ComponentDependency;
 import com.fundaments.springboot.fundaments.entity.User;
 import com.fundaments.springboot.fundaments.pojo.UserPojo;
+import com.fundaments.springboot.fundaments.service.UserService;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class FundamentsApplication implements CommandLineRunner {
 
 	//repository
 	UserRepository userRepository;
-
+	//service
+	UserService userService;
 
 	//constructor
 	//@Qualifier -> le indicamos la clase que queremos que implement, en caso de que haya mas de una
@@ -48,7 +50,8 @@ public class FundamentsApplication implements CommandLineRunner {
 			MyBeanWithDependecy myBeanWithDependecy,
 			MyBeanWithProperties myBeanWithProperties,
 			UserPojo userPojo,
-			UserRepository userRepository
+			UserRepository userRepository,
+			UserService userService
 	){
 		this.componentDependency = componentDependency;
 		this.myBean = myBean;
@@ -56,7 +59,9 @@ public class FundamentsApplication implements CommandLineRunner {
 		this.myBeanWithProperties = myBeanWithProperties;
 		this.userPojo = userPojo;
 		this.userRepository = userRepository;
+		this.userService = userService;
 	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(FundamentsApplication.class, args);
@@ -81,6 +86,21 @@ public class FundamentsApplication implements CommandLineRunner {
 
 		saveUsersDB();
 		getInfoJpqlUser();
+		saveWithErrorTransactional();
+	}
+
+	//
+	private void saveWithErrorTransactional() {
+		User user1 = new User("test1", "test1@mail.com", LocalDate.now());
+		User user2 = new User("test2", "test2@mail.com", LocalDate.now());
+		User user3 = new User("test3", "test3@mail.com", LocalDate.now());
+
+		List<User> users = Arrays.asList(user1, user2, user3);
+
+		userService.saveTransactional(users);
+
+		userService.getAllUsers()
+				.forEach(LOGGER::info);
 	}
 
 	private void getInfoJpqlUser() {
