@@ -93,11 +93,18 @@ public class FundamentsApplication implements CommandLineRunner {
 	private void saveWithErrorTransactional() {
 		User user1 = new User("test1", "test1@mail.com", LocalDate.now());
 		User user2 = new User("test2", "test2@mail.com", LocalDate.now());
-		User user3 = new User("test3", "test3@mail.com", LocalDate.now());
+		User user3 = new User("test3", "test2@mail.com", LocalDate.now()); // generara un error de email no unico
 
 		List<User> users = Arrays.asList(user1, user2, user3);
 
-		userService.saveTransactional(users);
+		//si hay un error los anteriores users no se registraran
+		//porqur el metodo tiene la anotacion @transactional lo que
+		//hara que haya un rollback
+		try {
+			userService.saveTransactional(users);
+		} catch (Exception e) {
+			LOGGER.error("SAVETRANSACTIONAL: " + e.getMessage());
+		}
 
 		userService.getAllUsers()
 				.forEach(LOGGER::info);
