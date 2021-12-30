@@ -97,6 +97,15 @@ public class FundamentsApplication implements CommandLineRunner {
 				.forEach(LOGGER::info); // por si no se quiere usar stream, se usa el forEach de list
 				//.stream()
 				//.forEach(user -> LOGGER.info("USER SORT BY ID = " + user));
+
+		//con query methods
+		userRepository.findByName("Jess")
+				.forEach(user -> LOGGER.info("User with Query Method: " + user));
+
+		LOGGER.info("user with queryMethod: findByEmailAndName: " + userRepository.findByEmailAndName("daniela@domain.com", "Daniela")
+				.orElseThrow(() -> new RuntimeException("User not found"))
+		);
+
 	}
 
 	//metodo para registrar la informacion en la db
