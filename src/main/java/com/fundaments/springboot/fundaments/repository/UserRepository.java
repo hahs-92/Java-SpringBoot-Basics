@@ -1,5 +1,6 @@
 package com.fundaments.springboot.fundaments.repository;
 
+import java.time.LocalDate;
 import java.util.*;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -25,4 +26,21 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmailAndName( String email,String name);
 
+    //con sentencia LIKE
+    List<User> findByNameLike(String name);
+
+    //OR sentence
+    List<User> findByNameOrEmail(String name, String email);
+
+    //BETWEEN
+    List<User> findByBirthDateBetween(LocalDate start, LocalDate end);
+
+    //DESCENDING LIKE
+    List<User> findByNameLikeOrderByIdDesc(String name);
+
+    //CONTAINIG
+    List<User> findByNameContaining(String name);
+
+    //IGNORECASE
+    List<User> findByNameIgnoreCase(String name);
 }

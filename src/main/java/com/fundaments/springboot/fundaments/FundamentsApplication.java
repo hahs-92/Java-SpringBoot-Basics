@@ -4,7 +4,6 @@ import com.fundaments.springboot.fundaments.bean.MyBean;
 import com.fundaments.springboot.fundaments.bean.MyBeanWithDependecy;
 import com.fundaments.springboot.fundaments.bean.MyBeanWithProperties;
 import com.fundaments.springboot.fundaments.component.ComponentDependency;
-import com.fundaments.springboot.fundaments.entity.Post;
 import com.fundaments.springboot.fundaments.entity.User;
 import com.fundaments.springboot.fundaments.pojo.UserPojo;
 import org.apache.juli.logging.Log;
@@ -16,12 +15,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //repositories
 import com.fundaments.springboot.fundaments.repository.*;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @SpringBootApplication
 public class FundamentsApplication implements CommandLineRunner {
@@ -87,6 +84,7 @@ public class FundamentsApplication implements CommandLineRunner {
 	}
 
 	private void getInfoJpqlUser() {
+		/*
 		LOGGER.info("User with email = " +
 				userRepository.findByEmail("alex@gmail.com")
 						.orElseThrow(() -> new RuntimeException("No se encontro el usuario"))
@@ -106,7 +104,35 @@ public class FundamentsApplication implements CommandLineRunner {
 				.orElseThrow(() -> new RuntimeException("User not found"))
 		);
 
+		//using LIKE sentence %""% -> contenga  ""% -> termine
+		userRepository.findByNameLike("%ss%")
+				.forEach(user -> LOGGER.info("USER LIKE: " + user));
+
+		//OR puedo enviar solo un parametro
+		userRepository.findByNameOrEmail(null, "alex@gmail.com")
+				.forEach(user -> LOGGER.info("USER OR: " + user));
+
+
+
+		//BETWEEN
+		userRepository.findByBirthDateBetween(LocalDate.of(2021,8, 15), LocalDate.of(2021, 12, 11))
+				.forEach(user -> LOGGER.info("BETWEEN: " + user));
+
+		//LIKE + DESC
+		userRepository.findByNameLikeOrderByIdDesc("Al%")
+				.forEach(user -> LOGGER.info("DESC + LIKE: " + user));
+
+
+		//CONTAIN -> parecido a like pero no hay que usa %%
+		userRepository.findByNameContaining("Al")
+				.forEach(user -> LOGGER.info("CONTENT: " + user));
+
+		 */
+		//IGNORECASE
+		userRepository.findByNameIgnoreCase("aLeX")
+				.forEach(user -> LOGGER.info("IGNORE_CASE: " + user));
 	}
+
 
 	//metodo para registrar la informacion en la db
 	private void saveUsersDB() {
