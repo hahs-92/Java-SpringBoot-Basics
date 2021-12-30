@@ -2,10 +2,13 @@ package com.fundaments.springboot.fundaments.repository;
 
 import java.time.LocalDate;
 import java.util.*;
+
+import com.fundaments.springboot.fundaments.dto.UserDto;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.fundaments.springboot.fundaments.entity.User;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -43,4 +46,22 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     //IGNORECASE
     List<User> findByNameIgnoreCase(String name);
+
+
+    //JPQL WITH NAMED PARAMS
+    @Query("SELECT new com.fundaments.springboot.fundaments.dto.UserDto(u.id, u.name, u.birthDate)" +
+            " FROM User u" +
+            " WHERE u.birthDate=:dateParam " +
+            " AND u.email=:emailParam"
+    )
+    Optional<UserDto> getAllByBirthDateAndEmail(@Param("dateParam") LocalDate date,
+                                                @Param("emailParam") String email
+    );
+
+    //MY EXAMPLE WITH JPQL
+    @Query("SELECT new com.fundaments.springboot.fundaments.dto.UserDto(u.id, u.name, u.birthDate)" +
+            " FROM User u " +
+            " WHERE u.name=:nameParam"
+    )
+    Optional<UserDto> getUserByName(@Param("nameParam") String name);
 }

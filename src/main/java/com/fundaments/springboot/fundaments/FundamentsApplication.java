@@ -127,10 +127,21 @@ public class FundamentsApplication implements CommandLineRunner {
 		userRepository.findByNameContaining("Al")
 				.forEach(user -> LOGGER.info("CONTENT: " + user));
 
-		 */
+
 		//IGNORECASE
 		userRepository.findByNameIgnoreCase("aLeX")
 				.forEach(user -> LOGGER.info("IGNORE_CASE: " + user));
+		 */
+
+		//JPQL NAMED PARAMS
+		LOGGER.info("USERS JQPL: " +  userRepository.getAllByBirthDateAndEmail(LocalDate.of(2021,9,8), "daniela@domain.com")
+				.orElseThrow(() -> new RuntimeException("User not found with JPQL"))
+		);
+
+		LOGGER.info("USER BY NAME DTO: "+ userRepository.getUserByName("Jess")
+				.orElseThrow(() -> new RuntimeException("User not found with JPQL"))
+		);
+
 	}
 
 
