@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 
 @ConstructorBinding //construye las propiedades
-@ConfigurationProperties(prefix = "user")
+@ConfigurationProperties(prefix = "user") // lee las propiedades del archivo aplication.properties con ayuda de la GeneralConfiguration
 public class UserPojo {
     private String username;
     private String password;
