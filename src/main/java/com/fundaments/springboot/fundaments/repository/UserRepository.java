@@ -64,4 +64,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
             " WHERE u.name=:nameParam"
     )
     Optional<UserDto> getUserByName(@Param("nameParam") String name);
+
 }
