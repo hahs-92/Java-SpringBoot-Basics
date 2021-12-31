@@ -1,5 +1,6 @@
 package com.fundaments.springboot.fundaments.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -30,10 +31,15 @@ public class User {
             fetch = FetchType.EAGER
     )
     @JsonManagedReference
+    //se agrego @JsonBackReference en Post entitiy soluciona el error de Post
+    //@JsonIgnore //“Unsupported Media Type” soluciona este error POST
     private List<Post> posts = new ArrayList<>();
 
-
     public User() {
+    }
+
+    public User(Long id) {
+        this.id = id;
     }
 
     public User(String name, String email, LocalDate birthDate) {

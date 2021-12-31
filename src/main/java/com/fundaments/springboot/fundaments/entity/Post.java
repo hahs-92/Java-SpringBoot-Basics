@@ -2,6 +2,9 @@ package com.fundaments.springboot.fundaments.entity;
 
 //JPA
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +20,7 @@ public class Post {
 
     //relacion con otra tabla
     @ManyToOne
+    @JsonBackReference // evitar el error de Post
     private User user;
 
     public Post() {

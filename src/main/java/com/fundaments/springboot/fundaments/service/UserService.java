@@ -31,4 +31,23 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public User save(User newUser) {
+        return  userRepository.save(newUser);
+    }
+
+    public void delete(Long id) {
+        userRepository.delete(new User(id));
+        //userRepository.deleteById(id); //tambien se podria asi
+    }
+
+    public User update(User user, Long id) {
+        return userRepository.findById(id)
+                .map(u -> {
+                    u.setName(user.getName());
+                    u.setEmail(user.getEmail());
+                    u.setBirthDate(user.getBirthDate());
+                    return userRepository.save(u);
+                }).orElseThrow(null); // retorna un optional // se podria tambien utilizar get
+    }
 }
